@@ -22,8 +22,15 @@ module.exports.cadastrar = function(application, req, res){
 
 
   var UsuariosDAO = new application.app.models.UsuariosDAO(connection)
+  var JogoDAO = new application.app.models.JogoDAO(connection)
 
+
+  //inserindo dados de jogador
   UsuariosDAO.inserirUsuario(dadosCadastro)
 
-  res.send('Cadastro realizado com sucesso!');
+  //Gerando os Status do Jogador
+  JogoDAO.gerarStatus(dadosCadastro.usuario)
+
+  //Renderizando tela index
+  res.redirect('/');
 }

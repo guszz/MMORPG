@@ -74,6 +74,11 @@
 	overflow: auto;
 }
 
+#btnPergaminhos,
+#btnAldeoes{
+	cursor: pointer;
+}
+
 .casa span{
 	margin-top:-20px;
 	margin-left:10px;
