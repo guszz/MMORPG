@@ -4,9 +4,9 @@ module.exports.jogo = function(application, req, res){
     return
   }
 
-  var comando_invalido = 'N'
-  if(req.query.comando_invalido == 'S'){
-    comando_invalido = 'S'
+  var msg = ''
+  if(req.query.msg !== ''){
+    msg = req.query.msg
   }
 
   var usuario = req.session.usuario
@@ -15,9 +15,7 @@ module.exports.jogo = function(application, req, res){
   var connection = application.config.dbConnection
   var JogoDAO = new application.app.models.JogoDAO(connection)
 
-  JogoDAO.startGame(res, usuario, casa, comando_invalido)
-
-  
+  JogoDAO.startGame(res, usuario, casa, msg)
 }
 
 module.exports.sair = function(application, req, res){
@@ -39,7 +37,13 @@ module.exports.pergaminhos = function(application, req, res){
     res.redirect('/')
     return
   }
-  res.render('pergaminhos', {validacao: {}})
+  //recuperar ações inseridas no Banco de dados
+  var connection = application.config.dbConnection
+  var JogoDAO = new application.app.models.JogoDAO(connection)
+
+  var usuario = req.session.usuario
+
+  JogoDAO.getActions(usuario, res)
 }
 
 module.exports.ordernar_acao = function(application, req, res){
@@ -55,9 +59,16 @@ module.exports.ordernar_acao = function(application, req, res){
   var erros = req.validationErrors();
 
   if(erros){
-    res.redirect('jogo?comando_invalido=S')
+    res.redirect('jogo?msg=A')
     return
   }
-  console.log(dadosActions)
-  res.send('Todo ok!')
+
+  var connection = application.config.dbConnection
+  var JogoDAO = new application.app.models.JogoDAO(connection)
+
+
+  dadosActions.usuario = req.session.usuario
+  JogoDAO.acao(dadosActions)
+
+  res.redirect('jogo?msg=B')
 }

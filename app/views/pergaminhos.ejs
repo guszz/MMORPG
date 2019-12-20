@@ -1,9 +1,37 @@
 <div id="pergaminhos">
 	<h3>Pergaminhos</h3>	
 	<ul>
-		<li>1 enforcamento(s) programado - <small>restam 00000 segundos - <a href="#">revogar ordem</a></small></li>
-		<li>2 aldeão(ões) em treinamento de magia - <small>restam 00000 segundos - <a href="#">revogar ordem</a></small></li>
-		<li>1 aldeão(ões) em treinamento de história - <small>restam 00000 segundos - <a href="#">revogar ordem</a></small></li>
-		<li>5 aldeão(ões) coletando recursos - <small>restam 00000 segundos - <a href="#">revogar ordem</a></small></li>
+		<% for(var i = 0; i < actions.length; i++){%>
+			<% 
+				var txt_acao = ''
+
+				switch (parseInt(actions[i].acao)) {
+					case 1: 
+						txt_acao = 'aldeão(ões) coletando recursos'
+						break					
+					case 2: 
+						txt_acao = 'enforcamento(s) programado'
+						break
+					case 3: 
+						txt_acao = 'aldeão(ões) em treinamento de história'
+						break
+					case 4: 
+						txt_acao = 'aldeão(ões) em treinamento de magia'
+						break
+				}
+				var date = new Date()
+				var agora = date.getTime()
+
+				var timeLeft = Math.round((actions[i].end_at - agora) / 1000)
+
+				if(timeLeft < 0){
+					timeLeft = 0
+					return
+				}
+			%>
+			<li>
+				<%= actions[i].quantidade%> <%= txt_acao %> - <small>restam <span class="timeLeft"><%= timeLeft %></span> segundos - <a href="#">revogar ordem</a></small>
+			</li>
+		<% } %>		
 	</ul>
 </div>

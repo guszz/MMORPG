@@ -22,16 +22,26 @@
 
 		<nav class="navbar navbar-default navbar-static-top">
 			<div class="container">
-				<span class="form-group sair">
-					<button type="button" class="btn btn-info pull-right" id="logOut" >Sair</button>
-				</span>
+				<form class="form-inline sair">
+					<button type="button" class="btn btn-primary my-2 pull-right" id="logOut" >Sair</button>
+				</form>
 			</div>
 		</nav>
 
 	<div class="container">
-		<% if( comando_invalido == 'S'){ %>
-			<div class="alert alert-danger" id="msgErros">
+		<% if( msg == 'A'){ %>
+			<div class="alert alert-danger msg">
 				<strong>Operação invalida, verifique se todos os campos foram informados!</strong>
+			</div>
+		<% } %>
+		<% if( msg == 'B'){ %>
+			<div class="alert alert-success msg">
+				<strong>Ação realizada com sucesso!</strong>
+			</div>
+		<% } %>
+		<% if( msg == 'C'){ %>
+			<div class="alert alert-info msg">
+				<strong>Senhor, a atividade ordenada foi finalizada!</strong>
 			</div>
 		<% } %>
 
