@@ -30,7 +30,7 @@
 				}
 			%>
 			<li>
-				<%= actions[i].quantidade%> <%= txt_acao %> - <small>restam <span class="timeLeft"><%= timeLeft %></span> segundos - <a href="#">revogar ordem</a></small>
+				<%= actions[i].quantidade%> <%= txt_acao %> - <small>restam <span class="timeLeft"><%= timeLeft %></span> segundos - <a href="/revogar_acao?acao_id=<%= actions[i]._id %>">revogar ordem</a></small>
 			</li>
 		<% } %>		
 	</ul>

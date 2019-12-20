@@ -1,3 +1,7 @@
+// Importando modulo Crypto
+
+var crypto = require('crypto')
+
 function UsuariosDAO(connection){
   this._connection = connection()
 }
@@ -5,6 +9,11 @@ function UsuariosDAO(connection){
 UsuariosDAO.prototype.inserirUsuario = function(usuario){
   this._connection.open(function(err, mongoClient){
     mongoClient.collection('usuarios', function(err, collection){
+      
+      var senhaCrypto = crypto.createHash('md5').update(usuario.senha).digest('hex')
+
+      usuario.senha = senhaCrypto
+
       collection.insert(usuario)
       mongoClient.close();
     })

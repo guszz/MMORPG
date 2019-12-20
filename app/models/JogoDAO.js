@@ -1,3 +1,5 @@
+var ObjectID = require('mongodb').ObjectId
+
 function JogoDAO(connection){
   this._connection = connection()
 }
@@ -56,32 +58,29 @@ JogoDAO.prototype.acao = function(acao){
 
       acao.end_at = date.getTime() + tempo
       collection.insert(acao)
-
-      mongoClient.close();
     })
 
     mongoClient.collection('jogo', function(err, collection){
-
       var moedas = null
-      
+
       switch(parseInt(acao.acao)){
         case 1:
-          moedas = - 2 * acao.quantidade
+          moedas = -2 * acao.quantidade
           break
         case 2:
-          moedas = - 3 * acao.quantidade
+          moedas = -3 * acao.quantidade
           break
         case 3:
-          moedas = - 1 * acao.quantidade
+          moedas = -1 * acao.quantidade
           break
         case 4:
-          moedas = - 1 * acao.quantidade
+          moedas = -1 * acao.quantidade
           break
       }
 
       collection.update(
         {usuario: acao.usuario},
-        {$inc: {moeda: moedas}}
+        { $inc: {moeda: moedas} }
       )
 
       mongoClient.close();
@@ -104,6 +103,22 @@ JogoDAO.prototype.getActions = function(usuario, res){
     })
   })
 }
+
+JogoDAO.prototype.revogarAcao = function(_id, res){
+  this._connection.open(function(err, mongoClient){
+    mongoClient.collection('acao', function(err, collection){
+      collection.remove(
+        {_id: ObjectID(_id)},
+        function(err, result){
+          res.redirect('\jogo?msg=D')
+          
+          mongoClient.close();
+        }
+      )
+    })
+  })
+}
+
 
 module.exports = function(){
   return JogoDAO

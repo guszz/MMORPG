@@ -14,4 +14,7 @@ module.exports = function(application){
 	application.post('/ordernar_acao', function(req, res){
 		application.app.controllers.jogoController.ordernar_acao(application, req, res)
 	});
+	application.get('/revogar_acao', function(req, res){
+		application.app.controllers.jogoController.revogar_acao(application, req, res)
+	});
 }
